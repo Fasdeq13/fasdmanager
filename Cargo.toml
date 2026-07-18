@@ -2,7 +2,7 @@
 name = "fasdmanager"
 version = "0.1.0"
 edition = "2021"
-description = "FileManager
+description = "FileManager"
 authors = ["FasdManager Contributors"]
 license = "GPL-3.0-or-later"
 default-run = "fasdmanager"
