@@ -1,0 +1,11 @@
+pub mod applications;
+pub mod desktop_entry;
+pub mod devices;
+pub mod distro_detect;
+pub mod entry;
+pub mod ops;
+pub mod package_owner;
+pub mod package_uninstall;
+pub mod progress_copy;
+pub mod reader;
+pub mod trash_ops;

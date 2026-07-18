@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=FasdManager
+Name[ru]=FasdManager
+Name[it]=FasdManager
+Name[zh]=FasdManager
+Comment=Hybrid file manager with a macOS Finder and GNOME Nautilus interface
+Comment[ru]=Гибридный файловый менеджер с интерфейсом macOS Finder и GNOME Nautilus
+Comment[it]=File manager ibrido con interfaccia macOS Finder e GNOME Nautilus
+Comment[zh]=融合 macOS Finder 与 GNOME Nautilus 界面风格的混合式文件管理器
+Exec=fasdmanager %U
+Icon=org.fasd.manager
+Terminal=false
+Categories=System;FileTools;FileManager;GTK;
+Keywords=files;file manager;finder;nautilus;dolphin;explorer;
+StartupNotify=true
+StartupWMClass=org.fasd.manager
