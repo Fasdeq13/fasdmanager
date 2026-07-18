@@ -57,8 +57,8 @@ pub fn spawn_copy_with_dialog(
         .can_close(false)
         .build();
 
-    dialog.present(Some(parent_window.upcast_ref::<gtk4::Widget>()));
-
+    dialog.present(Some(parent_window.upcast_ref::<gtk::Widget>()));
+    
     let (mut rx, cancel_token) = start_copy_with_progress(src, dst_dir);
 
     let cancel_token_for_button: CancelToken = cancel_token.clone();
