@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="usbBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fbef2"/>
+      <stop offset="1" stop-color="#4a90e2"/>
+    </linearGradient>
+  </defs>
+  <rect x="24" y="8" width="16" height="14" rx="2" fill="#c9d3dc"/>
+  <rect x="27" y="11" width="4" height="6" fill="#7d8896"/>
+  <rect x="33" y="11" width="4" height="6" fill="#7d8896"/>
+  <path d="M 16 22 L 48 22 Q 52 22 52 26 L 52 46 Q 52 52 46 52 L 18 52 Q 12 52 12 46 L 12 26 Q 12 22 16 22 Z" fill="url(#usbBody)"/>
+  <rect x="20" y="32" width="24" height="10" rx="2" fill="#eaf3fd"/>
+</svg>
