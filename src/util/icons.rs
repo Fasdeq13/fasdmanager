@@ -1,6 +1,139 @@
 use crate::fs::entry::EntryKind;
 use once_cell::sync::Lazy;
 use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicU8, Ordering};
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum IconTheme {
+    FasdFinder,
+    Adwaita,
+    Breeze,
+    Papirus,
+    SystemDefault,
+}
+
+impl IconTheme {
+    pub fn settings_value(self) -> &'static str {
+        match self {
+            IconTheme::FasdFinder => "fasd-finder",
+            IconTheme::Adwaita => "Adwaita",
+            IconTheme::Breeze => "breeze",
+            IconTheme::Papirus => "Papirus",
+            IconTheme::SystemDefault => "system-default",
+        }
+    }
+
+    pub fn from_settings_value(value: &str) -> Self {
+        match value {
+            "Adwaita" => IconTheme::Adwaita,
+            "breeze" => IconTheme::Breeze,
+            "Papirus" => IconTheme::Papirus,
+            "system-default" => IconTheme::SystemDefault,
+            _ => IconTheme::FasdFinder,
+        }
+    }
+
+    pub fn display_name_key(self) -> &'static str {
+        match self {
+            IconTheme::FasdFinder => "settings.icon_theme_fasd_finder",
+            IconTheme::Adwaita => "settings.icon_theme_adwaita",
+            IconTheme::Breeze => "settings.icon_theme_breeze",
+            IconTheme::Papirus => "settings.icon_theme_papirus",
+            IconTheme::SystemDefault => "settings.icon_theme_system",
+        }
+    }
+
+    pub const SELECTABLE: [IconTheme; 5] = [
+        IconTheme::FasdFinder,
+        IconTheme::Adwaita,
+        IconTheme::Breeze,
+        IconTheme::Papirus,
+        IconTheme::SystemDefault,
+    ];
+
+    fn system_theme_folder_name(self) -> Option<&'static str> {
+        match self {
+            IconTheme::Adwaita => Some("Adwaita"),
+            IconTheme::Breeze => Some("breeze"),
+            IconTheme::Papirus => Some("Papirus"),
+            IconTheme::FasdFinder | IconTheme::SystemDefault => None,
+        }
+    }
+}
+
+fn theme_index(theme: IconTheme) -> u8 {
+    match theme {
+        IconTheme::FasdFinder => 0,
+        IconTheme::Adwaita => 1,
+        IconTheme::Breeze => 2,
+        IconTheme::Papirus => 3,
+        IconTheme::SystemDefault => 4,
+    }
+}
+
+fn theme_from_index(idx: u8) -> IconTheme {
+    match idx {
+        1 => IconTheme::Adwaita,
+        2 => IconTheme::Breeze,
+        3 => IconTheme::Papirus,
+        4 => IconTheme::SystemDefault,
+        _ => IconTheme::FasdFinder,
+    }
+}
+
+static ACTIVE_ICON_THEME: AtomicU8 = AtomicU8::new(0);
+
+pub fn set_active_icon_theme(theme: IconTheme) {
+    ACTIVE_ICON_THEME.store(theme_index(theme), Ordering::SeqCst);
+}
+
+pub fn active_icon_theme() -> IconTheme {
+    theme_from_index(ACTIVE_ICON_THEME.load(Ordering::SeqCst))
+}
+
+fn bundled_theme_search_roots() -> Vec<PathBuf> {
+    let mut roots = Vec::new();
+
+    if let Ok(exe_path) = std::env::current_exe() {
+        if let Some(exe_dir) = exe_path.parent() {
+            roots.push(exe_dir.join("data/icons/themes"));
+            roots.push(exe_dir.join("../share/fasdmanager/icons/themes"));
+            roots.push(exe_dir.join("icons/themes"));
+        }
+    }
+
+    roots.push(PathBuf::from("/usr/share/fasdmanager/icons/themes"));
+    roots.push(PathBuf::from("/usr/local/share/fasdmanager/icons/themes"));
+
+    if let Ok(manifest_dir) = std::env::var("CARGO_MANIFEST_DIR") {
+        roots.push(PathBuf::from(manifest_dir).join("data/icons/themes"));
+    }
+
+    roots
+}
+
+fn find_svg_in_bundled_theme(icon_name: &str) -> Option<PathBuf> {
+    for root in bundled_theme_search_roots() {
+        let theme_root = root.join("fasd-finder");
+        if !theme_root.is_dir() {
+            continue;
+        }
+
+        let Ok(categories) = std::fs::read_dir(&theme_root) else {
+            continue;
+        };
+        for category in categories.flatten() {
+            if !category.path().is_dir() {
+                continue;
+            }
+            let candidate = category.path().join(format!("{icon_name}.svg"));
+            if candidate.is_file() {
+                return Some(candidate);
+            }
+        }
+    }
+    None
+}
 
 static ICON_THEME_SEARCH_ROOTS: Lazy<Vec<PathBuf>> = Lazy::new(|| {
     let mut roots = Vec::new();
@@ -51,6 +184,16 @@ fn search_scalable_subdirs(scalable_root: &Path, icon_name: &str) -> Option<Path
     None
 }
 
+fn find_svg_in_named_system_theme(theme_folder: &str, icon_name: &str) -> Option<PathBuf> {
+    for root in ICON_THEME_SEARCH_ROOTS.iter() {
+        let theme_root = root.join(theme_folder);
+        if let Some(found) = find_svg_in_theme_root(&theme_root, icon_name) {
+            return Some(found);
+        }
+    }
+    None
+}
+
 pub fn find_forced_svg_path(icon_name: &str) -> Option<PathBuf> {
     if icon_name.is_empty() {
         return None;
@@ -66,6 +209,18 @@ pub fn find_forced_svg_path(icon_name: &str) -> Option<PathBuf> {
             return Some(with_svg_ext);
         }
         return None;
+    }
+
+    let active_theme = active_icon_theme();
+
+    if active_theme == IconTheme::FasdFinder {
+        if let Some(found) = find_svg_in_bundled_theme(icon_name) {
+            return Some(found);
+        }
+    } else if let Some(theme_folder) = active_theme.system_theme_folder_name() {
+        if let Some(found) = find_svg_in_named_system_theme(theme_folder, icon_name) {
+            return Some(found);
+        }
     }
 
     for root in ICON_THEME_SEARCH_ROOTS.iter() {
@@ -86,6 +241,12 @@ pub fn find_forced_svg_path(icon_name: &str) -> Option<PathBuf> {
             if let Some(found) = find_svg_in_theme_root(&theme_entry.path(), icon_name) {
                 return Some(found);
             }
+        }
+    }
+
+    if active_theme != IconTheme::FasdFinder {
+        if let Some(found) = find_svg_in_bundled_theme(icon_name) {
+            return Some(found);
         }
     }
 
