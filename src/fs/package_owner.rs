@@ -3,6 +3,19 @@ use std::path::Path;
 use std::process::Command;
 
 pub fn find_owning_package(kind: PackageManagerKind, file_path: &Path) -> Option<String> {
+    if let Some(package) = query_package_owner(kind, file_path) {
+        return Some(package);
+    }
+
+    let canonical = std::fs::canonicalize(file_path).ok()?;
+    if canonical == file_path {
+        return None;
+    }
+
+    query_package_owner(kind, &canonical)
+}
+
+fn query_package_owner(kind: PackageManagerKind, file_path: &Path) -> Option<String> {
     let path_str = file_path.to_string_lossy().to_string();
 
     let output = match kind {
@@ -144,5 +157,14 @@ mod tests {
     #[test]
     fn empty_output_returns_none() {
         assert_eq!(parse_package_name(PackageManagerKind::Pacman, "\n"), None);
+    }
+
+    #[test]
+    fn find_owning_package_does_not_panic_on_missing_path() {
+        let result = find_owning_package(
+            PackageManagerKind::Pacman,
+            Path::new("/this/path/does/not/exist/anywhere"),
+        );
+        assert!(result.is_none());
     }
 }

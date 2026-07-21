@@ -8,4 +8,6 @@ pub mod package_owner;
 pub mod package_uninstall;
 pub mod progress_copy;
 pub mod reader;
+pub mod settings;
 pub mod trash_ops;
+pub mod xdg_dirs;
