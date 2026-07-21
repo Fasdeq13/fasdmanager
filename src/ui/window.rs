@@ -1,5 +1,5 @@
 use crate::i18n::tr;
-use crate::ui::app_state::new_shared_state;
+use crate::ui::app_state::{new_shared_state, SharedAppState};
 use crate::ui::content_view::ContentPane;
 use crate::ui::sidebar::build_sidebar_content;
 use crate::ui::tabs::{default_home_target, TabManager};
@@ -15,7 +15,8 @@ pub struct FasdManagerWindow {
     tab_manager: Rc<TabManager>,
     terminal_panel: Rc<TerminalPanel>,
     split_view_button: gtk::ToggleButton,
-    _volume_monitor: gio::VolumeMonitor,
+    outer_split: adw::OverlaySplitView,
+    _volume_monitor: RefCell<gio::VolumeMonitor>,
 }
 
 impl FasdManagerWindow {
@@ -88,15 +89,64 @@ impl FasdManagerWindow {
             tab_manager: tab_manager.clone(),
             terminal_panel: terminal_panel.clone(),
             split_view_button,
-            _volume_monitor: volume_monitor,
+            outer_split,
+            _volume_monitor: RefCell::new(volume_monitor),
         });
 
         tab_manager.open_new_tab(default_home_target());
 
         setup_keyboard_shortcuts(&window);
+        register_app_actions(app, &window, app_state);
 
         adw_window
     }
+
+    fn rebuild_sidebar(self: &Rc<Self>) {
+        let window_for_select = self.tab_manager.clone();
+        let (new_sidebar_widget, new_volume_monitor) = build_sidebar_content(move |target| {
+            window_for_select.navigate_current_tab(target);
+        });
+        self.outer_split.set_sidebar(Some(&new_sidebar_widget));
+        *self._volume_monitor.borrow_mut() = new_volume_monitor;
+    }
+
+    fn reload_all_open_panes(self: &Rc<Self>) {
+        for pane in self.tab_manager.all_content_panes() {
+            pane.reload();
+        }
+    }
+}
+
+fn register_app_actions(app: &adw::Application, window: &Rc<FasdManagerWindow>, app_state: SharedAppState) {
+    let settings_action = gio::SimpleAction::new("settings", None);
+    let window_for_settings = window.clone();
+    let app_state_for_settings = app_state;
+    settings_action.connect_activate(move |_, _| {
+        let window_for_callback = window_for_settings.clone();
+        crate::ui::settings_dialog::show_settings_dialog(
+            &window_for_settings.adw_window,
+            app_state_for_settings.clone(),
+            move || {
+                window_for_callback.rebuild_sidebar();
+                window_for_callback.reload_all_open_panes();
+            },
+        );
+    });
+    app.add_action(&settings_action);
+
+    let about_action = gio::SimpleAction::new("about", None);
+    let window_for_about = window.clone();
+    about_action.connect_activate(move |_, _| {
+        let about_dialog = adw::AboutDialog::builder()
+            .application_name(tr("app.title"))
+            .application_icon("org.fasd.manager")
+            .version(env!("CARGO_PKG_VERSION"))
+            .developer_name("Fasdeq13")
+            .comments(tr("about.description"))
+            .build();
+        about_dialog.present(Some(&window_for_about.adw_window));
+    });
+    app.add_action(&about_action);
 }
 
 fn build_header_bar(

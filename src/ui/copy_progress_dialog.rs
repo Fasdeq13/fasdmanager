@@ -58,7 +58,7 @@ pub fn spawn_copy_with_dialog(
         .build();
 
     dialog.present(Some(parent_window.as_ref()));
-    
+
     let (mut rx, cancel_token) = start_copy_with_progress(src, dst_dir);
 
     let cancel_token_for_button: CancelToken = cancel_token.clone();

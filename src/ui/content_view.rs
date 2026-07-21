@@ -176,6 +176,7 @@ impl ContentPane {
         let grid_view = gtk::GridView::new(Some(selection_model.clone()), Some(factory));
         grid_view.set_max_columns(16);
         grid_view.set_min_columns(2);
+        grid_view.set_enable_rubberband(true);
         grid_view.add_css_class("fasdmanager-grid");
 
         let list_factory = gtk::SignalListItemFactory::new();
@@ -263,6 +264,7 @@ impl ContentPane {
         });
 
         let list_view = gtk::ListView::new(Some(selection_model.clone()), Some(list_factory));
+        list_view.set_enable_rubberband(true);
         list_view.add_css_class("fasdmanager-list");
 
         let view_stack = gtk::Stack::new();

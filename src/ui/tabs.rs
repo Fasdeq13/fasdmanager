@@ -90,6 +90,14 @@ impl TabManager {
             self.open_new_tab(target);
         }
     }
+
+    pub fn all_content_panes(self: &Rc<Self>) -> Vec<Rc<ContentPane>> {
+        self.panes
+            .borrow()
+            .iter()
+            .map(|(_, pane)| pane.clone())
+            .collect()
+    }
 }
 
 fn tab_title_for_target(target: &SidebarTarget) -> String {

@@ -3,6 +3,7 @@ pub mod content_view;
 pub mod copy_progress_dialog;
 pub mod file_entry_object;
 pub mod icon_widget;
+pub mod settings_dialog;
 pub mod sidebar;
 pub mod tabs;
 pub mod terminal_panel;
