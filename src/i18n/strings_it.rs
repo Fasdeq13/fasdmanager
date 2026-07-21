@@ -20,6 +20,17 @@ pub fn build_table() -> HashMap<&'static str, &'static str> {
     m.insert("sidebar.network", "Rete");
     m.insert("sidebar.devices", "Dispositivi");
     m.insert("sidebar.bookmarks", "Segnalibri");
+    m.insert("devices.unmount", "Smonta");
+    m.insert("devices.unmounting", "Smontaggio…");
+    m.insert("devices.unmount_flushing", "Scrittura dati sul dispositivo…");
+    m.insert("devices.unmount_flushing_bytes", "Rimanente da scrivere: {}");
+    m.insert("devices.unmount_success", "\"{}\" smontato in sicurezza");
+    m.insert("devices.unmount_failed", "Impossibile smontare \"{}\": {}");
+    m.insert("sidebar.hide_item", "Nascondi dalla Barra Laterale");
+    m.insert("sidebar.hide_section", "Nascondi Sezione");
+    m.insert("sidebar.manage_items", "Mostra Elementi Nascosti…");
+    m.insert("sidebar.restore_hidden_title", "Elementi Nascosti della Barra Laterale");
+    m.insert("sidebar.restore_hidden_empty", "Niente è nascosto");
 
     m.insert("toolbar.back", "Indietro");
     m.insert("toolbar.forward", "Avanti");
@@ -152,7 +163,21 @@ pub fn build_table() -> HashMap<&'static str, &'static str> {
 
     m.insert("settings.title", "Impostazioni");
     m.insert("settings.language", "Lingua dell'Interfaccia");
+    m.insert(
+        "settings.language_restart_notice",
+        "Le modifiche avranno effetto dopo aver riavviato FasdManager.",
+    );
     m.insert("settings.appearance", "Aspetto");
+    m.insert("settings.icon_theme", "Tema delle Icone");
+    m.insert("settings.icon_theme_fasd_finder", "FasdManager (Predefinito)");
+    m.insert("settings.icon_theme_adwaita", "Adwaita");
+    m.insert("settings.icon_theme_breeze", "Breeze");
+    m.insert("settings.icon_theme_papirus", "Papirus");
+    m.insert("settings.icon_theme_system", "Tema di Sistema");
+    m.insert(
+        "settings.icon_theme_not_found",
+        "Il tema \"{}\" non è stato trovato su questo sistema, vengono mostrate le icone disponibili",
+    );
     m.insert("settings.theme_system", "Segui il Sistema");
     m.insert("settings.theme_light", "Chiaro");
     m.insert("settings.theme_dark", "Scuro");
@@ -160,7 +185,7 @@ pub fn build_table() -> HashMap<&'static str, &'static str> {
     m.insert("about.title", "Informazioni su FasdManager");
     m.insert(
         "about.description",
-        "Un file manager ibrido con interfaccia macOS Finder e GNOME Nautilus",
+        "Un file manager per Linux. Creato da Fasdeq13",
     );
 
     m

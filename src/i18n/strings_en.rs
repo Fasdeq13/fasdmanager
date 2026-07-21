@@ -20,6 +20,17 @@ pub fn build_table() -> HashMap<&'static str, &'static str> {
     m.insert("sidebar.network", "Network");
     m.insert("sidebar.devices", "Devices");
     m.insert("sidebar.bookmarks", "Bookmarks");
+    m.insert("devices.unmount", "Unmount");
+    m.insert("devices.unmounting", "Unmounting…");
+    m.insert("devices.unmount_flushing", "Flushing data to device…");
+    m.insert("devices.unmount_flushing_bytes", "Remaining to flush: {}");
+    m.insert("devices.unmount_success", "\"{}\" safely unmounted");
+    m.insert("devices.unmount_failed", "Failed to unmount \"{}\": {}");
+    m.insert("sidebar.hide_item", "Hide from Sidebar");
+    m.insert("sidebar.hide_section", "Hide Section");
+    m.insert("sidebar.manage_items", "Show Hidden Items…");
+    m.insert("sidebar.restore_hidden_title", "Hidden Sidebar Items");
+    m.insert("sidebar.restore_hidden_empty", "Nothing is hidden");
 
     m.insert("toolbar.back", "Back");
     m.insert("toolbar.forward", "Forward");
@@ -152,7 +163,21 @@ pub fn build_table() -> HashMap<&'static str, &'static str> {
 
     m.insert("settings.title", "Settings");
     m.insert("settings.language", "Interface Language");
+    m.insert(
+        "settings.language_restart_notice",
+        "Changes will take effect after restarting FasdManager.",
+    );
     m.insert("settings.appearance", "Appearance");
+    m.insert("settings.icon_theme", "Icon Theme");
+    m.insert("settings.icon_theme_fasd_finder", "FasdManager (Default)");
+    m.insert("settings.icon_theme_adwaita", "Adwaita");
+    m.insert("settings.icon_theme_breeze", "Breeze");
+    m.insert("settings.icon_theme_papirus", "Papirus");
+    m.insert("settings.icon_theme_system", "System Theme");
+    m.insert(
+        "settings.icon_theme_not_found",
+        "Theme \"{}\" was not found on this system, showing available icons",
+    );
     m.insert("settings.theme_system", "Follow System");
     m.insert("settings.theme_light", "Light");
     m.insert("settings.theme_dark", "Dark");
@@ -160,7 +185,7 @@ pub fn build_table() -> HashMap<&'static str, &'static str> {
     m.insert("about.title", "About FasdManager");
     m.insert(
         "about.description",
-        "A hybrid file manager with a macOS Finder and GNOME Nautilus interface",
+        "A file manager for Linux. Created by Fasdeq13",
     );
 
     m

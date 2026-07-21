@@ -20,6 +20,17 @@ pub fn build_table() -> HashMap<&'static str, &'static str> {
     m.insert("sidebar.network", "网络");
     m.insert("sidebar.devices", "设备");
     m.insert("sidebar.bookmarks", "书签");
+    m.insert("devices.unmount", "卸载");
+    m.insert("devices.unmounting", "正在卸载…");
+    m.insert("devices.unmount_flushing", "正在向设备写入数据…");
+    m.insert("devices.unmount_flushing_bytes", "剩余待写入：{}");
+    m.insert("devices.unmount_success", "「{}」已安全卸载");
+    m.insert("devices.unmount_failed", "卸载「{}」失败：{}");
+    m.insert("sidebar.hide_item", "从侧边栏隐藏");
+    m.insert("sidebar.hide_section", "隐藏此分组");
+    m.insert("sidebar.manage_items", "显示已隐藏项目…");
+    m.insert("sidebar.restore_hidden_title", "已隐藏的侧边栏项目");
+    m.insert("sidebar.restore_hidden_empty", "没有隐藏任何内容");
 
     m.insert("toolbar.back", "后退");
     m.insert("toolbar.forward", "前进");
@@ -152,7 +163,21 @@ pub fn build_table() -> HashMap<&'static str, &'static str> {
 
     m.insert("settings.title", "设置");
     m.insert("settings.language", "界面语言");
+    m.insert(
+        "settings.language_restart_notice",
+        "更改将在重新启动 FasdManager 后生效。",
+    );
     m.insert("settings.appearance", "外观");
+    m.insert("settings.icon_theme", "图标主题");
+    m.insert("settings.icon_theme_fasd_finder", "FasdManager（默认）");
+    m.insert("settings.icon_theme_adwaita", "Adwaita");
+    m.insert("settings.icon_theme_breeze", "Breeze");
+    m.insert("settings.icon_theme_papirus", "Papirus");
+    m.insert("settings.icon_theme_system", "系统主题");
+    m.insert(
+        "settings.icon_theme_not_found",
+        "在此系统上未找到主题「{}」，显示可用图标",
+    );
     m.insert("settings.theme_system", "跟随系统");
     m.insert("settings.theme_light", "浅色");
     m.insert("settings.theme_dark", "深色");
@@ -160,7 +185,7 @@ pub fn build_table() -> HashMap<&'static str, &'static str> {
     m.insert("about.title", "关于 FasdManager");
     m.insert(
         "about.description",
-        "融合 macOS Finder 与 GNOME Nautilus 界面风格的混合式文件管理器",
+        "Linux 文件管理器。作者：Fasdeq13",
     );
 
     m

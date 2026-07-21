@@ -20,6 +20,17 @@ pub fn build_table() -> HashMap<&'static str, &'static str> {
     m.insert("sidebar.network", "Сеть");
     m.insert("sidebar.devices", "Устройства");
     m.insert("sidebar.bookmarks", "Закладки");
+    m.insert("devices.unmount", "Отключить");
+    m.insert("devices.unmounting", "Отключение…");
+    m.insert("devices.unmount_flushing", "Дозапись данных на устройство…");
+    m.insert("devices.unmount_flushing_bytes", "Осталось дозаписать: {}");
+    m.insert("devices.unmount_success", "«{}» безопасно отключено");
+    m.insert("devices.unmount_failed", "Не удалось отключить «{}»: {}");
+    m.insert("sidebar.hide_item", "Скрыть из боковой панели");
+    m.insert("sidebar.hide_section", "Скрыть раздел");
+    m.insert("sidebar.manage_items", "Показать скрытые элементы…");
+    m.insert("sidebar.restore_hidden_title", "Скрытые элементы боковой панели");
+    m.insert("sidebar.restore_hidden_empty", "Ничего не скрыто");
 
     m.insert("toolbar.back", "Назад");
     m.insert("toolbar.forward", "Вперёд");
@@ -152,7 +163,18 @@ pub fn build_table() -> HashMap<&'static str, &'static str> {
 
     m.insert("settings.title", "Настройки");
     m.insert("settings.language", "Язык интерфейса");
+    m.insert(
+        "settings.language_restart_notice",
+        "Изменения вступят в силу после перезапуска FasdManager.",
+    );
     m.insert("settings.appearance", "Оформление");
+    m.insert("settings.icon_theme", "Тема иконок");
+    m.insert("settings.icon_theme_fasd_finder", "FasdManager (по умолчанию)");
+    m.insert("settings.icon_theme_adwaita", "Adwaita");
+    m.insert("settings.icon_theme_breeze", "Breeze");
+    m.insert("settings.icon_theme_papirus", "Papirus");
+    m.insert("settings.icon_theme_system", "Системная тема");
+    m.insert("settings.icon_theme_not_found", "Тема «{}» не найдена в системе, показаны доступные значки");
     m.insert("settings.theme_system", "Как в системе");
     m.insert("settings.theme_light", "Светлая");
     m.insert("settings.theme_dark", "Тёмная");
@@ -160,7 +182,7 @@ pub fn build_table() -> HashMap<&'static str, &'static str> {
     m.insert("about.title", "О программе FasdManager");
     m.insert(
         "about.description",
-        "Гибридный файловый менеджер с интерфейсом macOS Finder и GNOME Nautilus",
+        "Менеджер файлов для Linux. Автор: Fasdeq13",
     );
 
     m
