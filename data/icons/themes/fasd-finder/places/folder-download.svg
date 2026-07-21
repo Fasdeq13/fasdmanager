@@ -10,30 +10,21 @@
     </linearGradient>
   </defs>
   <path
-    d="M 8 20
-       Q 8 16 12 16
-       L 26 16
-       L 31 22
-       L 52 22
-       Q 56 22 56 26
-       L 56 46
-       Q 56 50 52 50
-       L 12 50
-       Q 8 50 8 46
-       Z"
+    d="M 8 20 Q 8 16 12 16 L 26 16 L 31 22 L 52 22 Q 56 22 56 26 L 56 46 Q 56 50 52 50 L 12 50 Q 8 50 8 46 Z"
     fill="url(#folderTab)"
   />
   <path
-    d="M 8 26
-       L 8 46
-       Q 8 50 12 50
-       L 52 50
-       Q 56 50 56 46
-       L 56 30
-       Q 56 26 52 26
-       L 12 26
-       Q 8 26 8 26
-       Z"
+    d="M 8 26 L 8 46 Q 8 50 12 50 L 52 50 Q 56 50 56 46 L 56 30 Q 56 26 52 26 L 12 26 Q 8 26 8 26 Z"
     fill="url(#folderBody)"
+  />
+  <path
+    d="M 32 29 L 32 41 L 26 41 L 32 48 L 38 41 L 32 41"
+    fill="#ffffff"
+    fill-opacity="0.94"
+    stroke="#ffffff"
+    stroke-opacity="0.94"
+    stroke-width="4"
+    stroke-linejoin="round"
+    stroke-linecap="round"
   />
 </svg>

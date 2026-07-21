@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="trashBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8c2cc"/>
+      <stop offset="1" stop-color="#8b98a6"/>
+    </linearGradient>
+  </defs>
+  <path d="M 22 20 L 30 12 L 34 12 L 42 20 Z" fill="#c9d3dc"/>
+  <rect x="16" y="16" width="8" height="4" rx="1" fill="#8b98a6"/>
+  <rect x="40" y="16" width="8" height="4" rx="1" fill="#8b98a6"/>
+  <path d="M 14 22 L 50 22 L 50 24 L 14 24 Z" fill="#8b98a6"/>
+  <path d="M 17 26 L 47 26 L 45 52 Q 44.7 55 41.7 55 L 22.3 55 Q 19.3 55 19 52 Z" fill="url(#trashBody)"/>
+  <rect x="27" y="31" width="3" height="19" rx="1.5" fill="#eaf0f5"/>
+  <rect x="34" y="31" width="3" height="19" rx="1.5" fill="#eaf0f5"/>
+</svg>
